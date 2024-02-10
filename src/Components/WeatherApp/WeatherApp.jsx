@@ -51,27 +51,31 @@ const WeatherApp = () => {
             const temp = document.getElementsByClassName("weather-temp")
             const location = document.getElementsByClassName("weather-location")
         
-            humidity[0].innerHTML = data.main.humidity + " %";
-            wind[0].innerHTML = Math.floor(data.wind.speed) + " kmph";
-            temp[0].innerHTML = Math.floor(data.main.temp) + " °C";
-            location[0].innerHTML = data.name;
+            if(data.cod === 200) {
+                humidity[0].innerHTML = data.main.humidity + " %";
+                wind[0].innerHTML = Math.floor(data.wind.speed) + " kmph";
+                temp[0].innerHTML = Math.floor(data.main.temp) + " °C";
+                location[0].innerHTML = data.name;
 
-            if(data.weather[0].icon === '01d' || data.weather[0].icon === '01n') {
-                setWicon(clear)
-            } else if (data.weather[0].icon === '02d' || data.weather[0].icon === '02n'){
-                setWicon(cloud)
-            } else if (data.weather[0].icon === '03d' || data.weather[0].icon === '03n'){
-                setWicon(drizzle)
-            } else if (data.weather[0].icon === '04d' || data.weather[0].icon === '04n'){
-                setWicon(drizzle)
-            } else if (data.weather[0].icon === '09d' || data.weather[0].icon === '09n' || data.weather[0].icon === '10d' || data.weather[0].icon === '10n' || data.weather[0].icon === '11d' || data.weather[0].icon === '11n'){
-                setWicon(rain)
-            } else if (data.weather[0].icon === '13d' || data.weather[0].icon === '13n'){
-                setWicon(snow)
-            } else if (data.weather[0].icon === '50d' || data.weather[0].icon === '50n'){
-                setWicon(mist)
+                if(data.weather[0].icon === '01d' || data.weather[0].icon === '01n') {
+                    setWicon(clear)
+                } else if (data.weather[0].icon === '02d' || data.weather[0].icon === '02n'){
+                    setWicon(cloud)
+                } else if (data.weather[0].icon === '03d' || data.weather[0].icon === '03n'){
+                    setWicon(drizzle)
+                } else if (data.weather[0].icon === '04d' || data.weather[0].icon === '04n'){
+                    setWicon(drizzle)
+                } else if (data.weather[0].icon === '09d' || data.weather[0].icon === '09n' || data.weather[0].icon === '10d' || data.weather[0].icon === '10n' || data.weather[0].icon === '11d' || data.weather[0].icon === '11n'){
+                    setWicon(rain)
+                } else if (data.weather[0].icon === '13d' || data.weather[0].icon === '13n'){
+                    setWicon(snow)
+                } else if (data.weather[0].icon === '50d' || data.weather[0].icon === '50n'){
+                    setWicon(mist)
+                } else {
+                    setWicon(clear)
+                }
             } else {
-                setWicon(clear)
+                alert(data.message + " !!!")
             }
     }
 
