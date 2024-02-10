@@ -14,11 +14,17 @@ const WeatherApp = () => {
 
     let api_key = "01ad2ccb90d5dd3e5c5d7dffc4cfed83";
     const [wicon, setWicon] = useState(cloud);
+    
 
     useEffect( () => {
         navigator.geolocation.getCurrentPosition(
-            (position) => {
-                console.log(position)
+            async (position) => {
+                let latitude = position.coords.latitude
+                let longitude = position.coords.longitude
+                let url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+                let response = await fetch(url)
+                let data = await response.json()
+                fetchData(data.address.city);
             },
             (error) => {
                 console.error('Error getting user location:', error);
@@ -26,13 +32,17 @@ const WeatherApp = () => {
         );
     }, []);
 
-    const search = async () => {
+    const search = () => {
         const element = document.getElementsByClassName("cityInput")
-        console.log(element)
         if(element[0].value === "") {
             return 0;
         } else {
-            let url = `https://api.openweathermap.org/data/2.5/weather?q=${element[0].value}&units=Metric&appid=${api_key}`
+            fetchData(element[0].value)
+        }
+    }
+
+    const fetchData = async (cityName) => {
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=Metric&appid=${api_key}`
             let response = await fetch(url)
             let data = await response.json()
 
@@ -63,7 +73,6 @@ const WeatherApp = () => {
             } else {
                 setWicon(clear)
             }
-        }
     }
 
     return (
@@ -78,23 +87,23 @@ const WeatherApp = () => {
             <img src={wicon} alt='' className='cloud-icon' />
         </div>
         <div className='weather-temp'>
-            24° C
+            -
         </div>
         <div className='weather-location'>
-            London
+            -
         </div>
         <div className='data-container'>
             <div className='element'>
                 <img src={humid} alt='' className='icon' />
                 <div className='data'>
-                    <div className='humidity-percent'>64 %</div>
+                    <div className='humidity-percent'> - </div>
                     <div className='text'>Humidity</div>
                 </div>
             </div>
             <div className='element'>
                 <img src={wind} alt='' className='icon' />
                 <div className='data'>
-                    <div className='wind-rate'>18 kmph</div>
+                    <div className='wind-rate'> - </div>
                     <div className='text'>Wind Speed</div>
                 </div>
             </div>
